@@ -4,6 +4,7 @@ from database.models import PurchaseOrder
 from modules.purchase.schema import PurchaseOrderCreate
 from datetime import date,datetime
 from sqlalchemy import cast, Date
+from typing import Optional
 
 
 def create_purchase_order(db: Session, po_in: PurchaseOrderCreate):
@@ -27,12 +28,9 @@ def create_purchase_order(db: Session, po_in: PurchaseOrderCreate):
         raise HTTPException(status_code=500, detail="Something went wrong")
 
 
-def get_purchase_orders(schema, db: Session):
+def get_purchase_orders(start_date: date, end_date: date, db: Session):
     try:
         query = db.query(PurchaseOrder)
-
-        start_date = schema.start_date  
-        end_date = schema.end_date      
 
         if start_date and end_date and start_date == end_date:
             query = query.filter(PurchaseOrder.po_date == start_date)

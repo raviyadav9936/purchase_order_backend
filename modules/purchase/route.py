@@ -53,8 +53,12 @@ async def upload_po(file: UploadFile = File(...), db: Session = Depends(get_db))
     return po
 
 
-@router.post("/purchase_order")
-def list_purchase_orders(schema: PurchaseOrderFilter, db: Session = Depends(get_db)):
-    return get_purchase_orders(schema, db)
+@router.get("/purchase_order") 
+def list_purchase_orders(
+    start_date: Optional[date] = None,
+    end_date: Optional[date] = None,
+    db: Session = Depends(get_db)
+):
+    return get_purchase_orders(start_date, end_date, db)
 
 

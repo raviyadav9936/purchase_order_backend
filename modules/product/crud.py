@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -53,7 +54,8 @@ def place_order(schema, db: Session):
         new_order = Order(
             product_id=schema.product_id,
             quantity=schema.quantity,
-            total_price=total_price
+            total_price=total_price,
+            order_date=datetime.utcnow() 
         )
 
         db.add(new_order)
@@ -68,7 +70,8 @@ def place_order(schema, db: Session):
                 "product_id": new_order.product_id,
                 "quantity": new_order.quantity,
                 "total_price": new_order.total_price,
-                "remaining_stock": product.stock_qty
+                "remaining_stock": product.stock_qty,
+                "order_date": new_order.order_date.strftime("%Y-%m-%d %H:%M:%S")
             }
         }
     except HTTPException as e:
