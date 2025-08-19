@@ -31,6 +31,7 @@ class PurchaseOrder(Base):
     id = Column(Integer, primary_key=True, index=True)
     po_number = Column(String(255), index=True, nullable=False)
     po_date = Column(Date, index=True, nullable=True)
+    vendor_name=Column(String(255))
     total_amount = Column(Float, nullable=True)
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now())
     file_path = Column(String(1024))
